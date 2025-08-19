@@ -21,6 +21,7 @@ export default async function Home() {
       variants: true,
     },
   });
+
   const categories = await db.query.categoryTable.findMany({});
 
   return (
