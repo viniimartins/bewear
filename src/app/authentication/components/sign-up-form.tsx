@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z
   .object({
@@ -46,6 +47,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export function SignUpForm() {
   const router = useRouter();
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,7 +59,25 @@ export function SignUpForm() {
   });
 
   async function onSubmit(values: FormValues) {
-    console.log(values);
+    await authClient.signUp.email({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (error) => {
+          if (error.error.code === "USER_ALREADY_EXISTS") {
+            toast.error("E-mail já cadastrado.");
+            return form.setError("email", {
+              message: "E-mail já cadastrado.",
+            });
+          }
+          toast.error(error.error.message);
+        },
+      },
+    });
   }
 
   return (
@@ -84,6 +104,7 @@ export function SignUpForm() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="email"
@@ -97,6 +118,7 @@ export function SignUpForm() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="password"
@@ -114,6 +136,7 @@ export function SignUpForm() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="passwordConfirmation"
@@ -131,7 +154,9 @@ export function SignUpForm() {
                   </FormItem>
                 )}
               />
+
             </CardContent>
+
             <CardFooter>
               <Button type="submit">Criar conta</Button>
             </CardFooter>
