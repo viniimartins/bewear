@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { formatCentsToBRL } from "@/helpers/money";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 interface CartItemProps {
   id: string;
