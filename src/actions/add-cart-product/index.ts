@@ -9,7 +9,7 @@ import { auth } from "@/lib/auth";
 
 import { AddProductToCartSchema, addProductToCartSchema } from "./schema";
 
-export const addProductToCart = async (data: AddProductToCartSchema) => {
+export async function addProductToCart(data: AddProductToCartSchema) {
   addProductToCartSchema.parse(data);
 
   const session = await auth.api.getSession({

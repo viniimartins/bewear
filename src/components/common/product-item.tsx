@@ -14,7 +14,10 @@ export function ProductItem({ product }: ProductItemProps) {
   const firstVariant = product.variants[0];
 
   return (
-    <Link href="/" className="flex flex-col gap-4">
+    <Link
+      href={`/product-variant/${firstVariant.slug}`}
+      className="flex flex-col gap-4"
+    >
       <Image
         src={firstVariant.imageUrl}
         alt={firstVariant.name}
@@ -32,7 +35,7 @@ export function ProductItem({ product }: ProductItemProps) {
           {formatCentsToBRL(firstVariant.priceInCents)}
         </p>
       </div>
-      
+
     </Link>
   );
 };
