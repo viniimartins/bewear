@@ -1,10 +1,13 @@
+"use client";
+
 import { ShoppingBasketIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 
-export const Cart = () => {
+export function Cart() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -12,7 +15,11 @@ export const Cart = () => {
           <ShoppingBasketIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent></SheetContent>
+      <SheetContent>
+        <VisuallyHidden>
+          <SheetTitle />
+        </VisuallyHidden>
+      </SheetContent>
     </Sheet>
   );
 };
