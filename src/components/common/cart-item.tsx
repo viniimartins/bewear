@@ -42,6 +42,7 @@ export const CartItem = ({
       },
     });
   };
+
   const handleDecreaseQuantityClick = () => {
     decreaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {
@@ -49,6 +50,7 @@ export const CartItem = ({
       },
     });
   };
+
   const handleIncreaseQuantityClick = () => {
     increaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {

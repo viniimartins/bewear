@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Cart } from "./card";
+import { Cart } from "./cart";
 
 export function Header() {
   const { data: session } = authClient.useSession();
