@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-
+import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -42,6 +42,9 @@ export const createShippingAddress = async (
       cpfOrCnpj: data.cpf,
     })
     .returning();
+
+
+  revalidatePath("/cart/identification");
 
   return shippingAddress;
 };
