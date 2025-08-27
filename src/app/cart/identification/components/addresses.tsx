@@ -130,41 +130,41 @@ export function Addresses({
                 </p>
               </div>
             )}
+
+            {addresses?.map((address) => (
+              <Card key={address.id}>
+                <CardContent>
+                  <div className="flex items-start space-x-2">
+                    <RadioGroupItem value={address.id} id={address.id} />
+                    <div className="flex-1">
+                      <Label htmlFor={address.id} className="cursor-pointer">
+                        <div>
+                          <p className="text-sm">
+                            {address.recipientName} • {address.street},{" "}
+                            {address.number}
+                            {address.complement &&
+                              `, ${address.complement}`}, {address.neighborhood}
+                            , {address.city} - {address.state} • CEP:{" "}
+                            {address.zipCode}
+                          </p>
+                        </div>
+                      </Label>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+
+            <Card>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="add_new" id="add_new" />
+                  <Label htmlFor="add_new">Adicionar novo endereço</Label>
+                </div>
+              </CardContent>
+            </Card>
           </RadioGroup>
         )}
-
-        {addresses?.map((address) => (
-          <Card key={address.id}>
-            <CardContent>
-              <div className="flex items-start space-x-2">
-                <RadioGroupItem value={address.id} id={address.id} />
-                <div className="flex-1">
-                  <Label htmlFor={address.id} className="cursor-pointer">
-                    <div>
-                      <p className="text-sm">
-                        {address.recipientName} • {address.street},{" "}
-                        {address.number}
-                        {address.complement &&
-                          `, ${address.complement}`}, {address.neighborhood}
-                        , {address.city} - {address.state} • CEP:{" "}
-                        {address.zipCode}
-                      </p>
-                    </div>
-                  </Label>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-
-        <Card>
-          <CardContent>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="add_new" id="add_new" />
-              <Label htmlFor="add_new">Adicionar novo endereço</Label>
-            </div>
-          </CardContent>
-        </Card>
 
         {selectedAddress && selectedAddress !== "add_new" && (
           <div className="mt-4">
