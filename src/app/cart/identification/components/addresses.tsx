@@ -1,13 +1,15 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { PatternFormat } from "react-number-format";
-import z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { PatternFormat } from 'react-number-format'
+import { toast } from 'sonner'
+import z from 'zod'
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -15,104 +17,101 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
-import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
-import { toast } from "sonner";
-import type { shippingAddressTable } from "@/db/schema";
-import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping";
-import { useRouter } from "next/navigation";
-import { formatAddress } from "../../helpers/address";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import type { shippingAddressTable } from '@/db/schema'
+import { useCreateShippingAddress } from '@/hooks/mutations/use-create-shipping-address'
+import { useUpdateCartShippingAddress } from '@/hooks/mutations/use-update-cart-shipping'
+import { useUserAddresses } from '@/hooks/queries/use-user-addresses'
+
+import { formatAddress } from '../../helpers/address'
 
 const formSchema = z.object({
-  email: z.email("E-mail inválido"),
-  fullName: z.string().min(1, "Nome completo é obrigatório"),
-  cpf: z.string().min(14, "CPF inválido"),
-  phone: z.string().min(15, "Celular inválido"),
-  zipCode: z.string().min(9, "CEP inválido"),
-  address: z.string().min(1, "Endereço é obrigatório"),
-  number: z.string().min(1, "Número é obrigatório"),
+  email: z.email('E-mail inválido'),
+  fullName: z.string().min(1, 'Nome completo é obrigatório'),
+  cpf: z.string().min(14, 'CPF inválido'),
+  phone: z.string().min(15, 'Celular inválido'),
+  zipCode: z.string().min(9, 'CEP inválido'),
+  address: z.string().min(1, 'Endereço é obrigatório'),
+  number: z.string().min(1, 'Número é obrigatório'),
   complement: z.string().optional(),
-  neighborhood: z.string().min(1, "Bairro é obrigatório"),
-  city: z.string().min(1, "Cidade é obrigatória"),
-  state: z.string().min(1, "Estado é obrigatório"),
-});
+  neighborhood: z.string().min(1, 'Bairro é obrigatório'),
+  city: z.string().min(1, 'Cidade é obrigatória'),
+  state: z.string().min(1, 'Estado é obrigatório'),
+})
 
-type FormValues = z.infer<typeof formSchema>;
-
+type FormValues = z.infer<typeof formSchema>
 
 interface AddressesProps {
-  shippingAddresses: (typeof shippingAddressTable.$inferSelect)[];
-  defaultShippingAddressId: string | null;
+  shippingAddresses: (typeof shippingAddressTable.$inferSelect)[]
+  defaultShippingAddressId: string | null
 }
 
 export function Addresses({
   shippingAddresses,
   defaultShippingAddressId,
 }: AddressesProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     defaultShippingAddressId || null,
-  );
-  const createShippingAddressMutation = useCreateShippingAddress();
-  const updateCartShippingAddressMutation = useUpdateCartShippingAddress();
+  )
+  const createShippingAddressMutation = useCreateShippingAddress()
+  const updateCartShippingAddressMutation = useUpdateCartShippingAddress()
   const { data: addresses, isLoading } = useUserAddresses({
     initialData: shippingAddresses,
-  });
+  })
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      fullName: "",
-      cpf: "",
-      phone: "",
-      zipCode: "",
-      address: "",
-      number: "",
-      complement: "",
-      neighborhood: "",
-      city: "",
-      state: "",
+      email: '',
+      fullName: '',
+      cpf: '',
+      phone: '',
+      zipCode: '',
+      address: '',
+      number: '',
+      complement: '',
+      neighborhood: '',
+      city: '',
+      state: '',
     },
-  });
+  })
 
   const onSubmit = async (values: FormValues) => {
     try {
-      const newAddress =
-        await createShippingAddressMutation.mutateAsync(values);
-      toast.success("Endereço criado com sucesso!");
-      form.reset();
-      setSelectedAddress(newAddress.id);
+      const newAddress = await createShippingAddressMutation.mutateAsync(values)
+      toast.success('Endereço criado com sucesso!')
+      form.reset()
+      setSelectedAddress(newAddress.id)
 
       await updateCartShippingAddressMutation.mutateAsync({
         shippingAddressId: newAddress.id,
-      });
-      toast.success("Endereço vinculado ao carrinho!");
+      })
+      toast.success('Endereço vinculado ao carrinho!')
     } catch (error) {
-      toast.error("Erro ao criar endereço. Tente novamente.");
-      console.error(error);
+      toast.error('Erro ao criar endereço. Tente novamente.')
+      console.error(error)
     }
-  };
+  }
 
   const handleGoToPayment = async () => {
-    if (!selectedAddress || selectedAddress === "add_new") return;
+    if (!selectedAddress || selectedAddress === 'add_new') return
 
     try {
       await updateCartShippingAddressMutation.mutateAsync({
         shippingAddressId: selectedAddress,
-      });
-      toast.success("Endereço selecionado para entrega!");
+      })
+      toast.success('Endereço selecionado para entrega!')
 
-      router.push("/cart/payment");
+      router.push('/cart/payment')
     } catch (error) {
-      toast.error("Erro ao selecionar endereço. Tente novamente.");
-      console.error(error);
+      toast.error('Erro ao selecionar endereço. Tente novamente.')
+      console.error(error)
     }
-  };
+  }
 
   return (
     <Card>
@@ -165,7 +164,7 @@ export function Addresses({
           </RadioGroup>
         )}
 
-        {selectedAddress && selectedAddress !== "add_new" && (
+        {selectedAddress && selectedAddress !== 'add_new' && (
           <div className="mt-4">
             <Button
               onClick={handleGoToPayment}
@@ -173,13 +172,13 @@ export function Addresses({
               disabled={updateCartShippingAddressMutation.isPending}
             >
               {updateCartShippingAddressMutation.isPending
-                ? "Processando..."
-                : "Ir para pagamento"}
+                ? 'Processando...'
+                : 'Ir para pagamento'}
             </Button>
           </div>
         )}
 
-        {selectedAddress === "add_new" && (
+        {selectedAddress === 'add_new' && (
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -371,15 +370,14 @@ export function Addresses({
                 }
               >
                 {createShippingAddressMutation.isPending ||
-                  updateCartShippingAddressMutation.isPending
-                  ? "Salvando..."
-                  : "Salvar endereço"}
+                updateCartShippingAddressMutation.isPending
+                  ? 'Salvando...'
+                  : 'Salvar endereço'}
               </Button>
             </form>
           </Form>
         )}
       </CardContent>
     </Card>
-  );
+  )
 }
-

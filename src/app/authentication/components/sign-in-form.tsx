@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import z from 'zod'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -22,27 +22,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/auth-client'
 
 const formSchema = z.object({
-  email: z.email("E-mail inválido!"),
-  password: z.string("Senha inválida!").min(8, "Senha inválida!"),
-});
+  email: z.email('E-mail inválido!'),
+  password: z.string('Senha inválida!').min(8, 'Senha inválida!'),
+})
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export function SignInForm() {
-  const router = useRouter();
+  const router = useRouter()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-  });
+  })
 
   async function onSubmit(values: FormValues) {
     await authClient.signIn.email({
@@ -50,37 +50,37 @@ export function SignInForm() {
       password: values.password,
       fetchOptions: {
         onSuccess: () => {
-          router.push("/");
+          router.push('/')
         },
         onError: (ctx) => {
-          if (ctx.error.code === "USER_NOT_FOUND") {
-            toast.error("E-mail não encontrado.");
-            return form.setError("email", {
-              message: "E-mail não encontrado.",
-            });
+          if (ctx.error.code === 'USER_NOT_FOUND') {
+            toast.error('E-mail não encontrado.')
+            return form.setError('email', {
+              message: 'E-mail não encontrado.',
+            })
           }
 
-          if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
-            toast.error("E-mail ou senha inválidos.");
-            form.setError("password", {
-              message: "E-mail ou senha inválidos.",
-            });
-            return form.setError("email", {
-              message: "E-mail ou senha inválidos.",
-            });
+          if (ctx.error.code === 'INVALID_EMAIL_OR_PASSWORD') {
+            toast.error('E-mail ou senha inválidos.')
+            form.setError('password', {
+              message: 'E-mail ou senha inválidos.',
+            })
+            return form.setError('email', {
+              message: 'E-mail ou senha inválidos.',
+            })
           }
 
-          toast.error(ctx.error.message);
+          toast.error(ctx.error.message)
         },
       },
-    });
+    })
   }
 
   const handleSignInWithGoogle = async () => {
     await authClient.signIn.social({
-      provider: "google",
-    });
-  };
+      provider: 'google',
+    })
+  }
 
   return (
     <>
@@ -124,7 +124,6 @@ export function SignInForm() {
                   </FormItem>
                 )}
               />
-
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
               <Button type="submit" className="w-full">
@@ -161,5 +160,5 @@ export function SignInForm() {
         </Form>
       </Card>
     </>
-  );
-};
+  )
+}

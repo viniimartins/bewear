@@ -1,21 +1,21 @@
-import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
-import Image from "next/image";
+import { MinusIcon, PlusIcon, TrashIcon } from 'lucide-react'
+import Image from 'next/image'
+import { toast } from 'sonner'
 
-import { formatCentsToBRL } from "@/helpers/money";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { useDecreaseCartProduct } from "@/hooks/mutations/use-decrease-cart-product";
-import { useIncreaseCartProduct } from "@/hooks/mutations/use-increase-cart-product";
-import { useRemoveProductFromCart } from "@/hooks/mutations/use-remove-product-from-cart";
+import { Button } from '@/components/ui/button'
+import { formatCentsToBRL } from '@/helpers/money'
+import { useDecreaseCartProduct } from '@/hooks/mutations/use-decrease-cart-product'
+import { useIncreaseCartProduct } from '@/hooks/mutations/use-increase-cart-product'
+import { useRemoveProductFromCart } from '@/hooks/mutations/use-remove-product-from-cart'
 
 interface CartItemProps {
-  id: string;
-  productName: string;
-  productVariantId: string;
-  productVariantName: string;
-  productVariantImageUrl: string;
-  productVariantPriceInCents: number;
-  quantity: number;
+  id: string
+  productName: string
+  productVariantId: string
+  productVariantName: string
+  productVariantImageUrl: string
+  productVariantPriceInCents: number
+  quantity: number
 }
 
 export const CartItem = ({
@@ -27,37 +27,37 @@ export const CartItem = ({
   productVariantId,
   quantity,
 }: CartItemProps) => {
-  const removeProductFromCartMutation = useRemoveProductFromCart(id);
-  const decreaseCartProductQuantityMutation = useDecreaseCartProduct(id);
+  const removeProductFromCartMutation = useRemoveProductFromCart(id)
+  const decreaseCartProductQuantityMutation = useDecreaseCartProduct(id)
   const increaseCartProductQuantityMutation =
-    useIncreaseCartProduct(productVariantId);
+    useIncreaseCartProduct(productVariantId)
 
   const handleDeleteClick = () => {
     removeProductFromCartMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Produto removido do carrinho.");
+        toast.success('Produto removido do carrinho.')
       },
       onError: () => {
-        toast.error("Erro ao remover produto do carrinho.");
+        toast.error('Erro ao remover produto do carrinho.')
       },
-    });
-  };
+    })
+  }
 
   const handleDecreaseQuantityClick = () => {
     decreaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Quantidade do produto diminuida.");
+        toast.success('Quantidade do produto diminuida.')
       },
-    });
-  };
+    })
+  }
 
   const handleIncreaseQuantityClick = () => {
     increaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Quantidade do produto aumentada.");
+        toast.success('Quantidade do produto aumentada.')
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex items-center justify-between">
@@ -75,7 +75,11 @@ export const CartItem = ({
             {productVariantName}
           </p>
           <div className="flex w-[100px] items-center justify-between rounded-lg border p-1">
-            <Button className="h-4 w-4" variant="ghost" onClick={handleDecreaseQuantityClick}>
+            <Button
+              className="h-4 w-4"
+              variant="ghost"
+              onClick={handleDecreaseQuantityClick}
+            >
               <MinusIcon />
             </Button>
             <p className="text-xs font-medium">{quantity}</p>
@@ -98,5 +102,5 @@ export const CartItem = ({
         </p>
       </div>
     </div>
-  );
-};
+  )
+}

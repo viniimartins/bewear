@@ -1,9 +1,8 @@
-import { categoryTable } from "@/db/schema";
-
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
+import { categoryTable } from '@/db/schema'
 
 interface CategorySelectorProps {
-  categories: (typeof categoryTable.$inferSelect)[];
+  categories: (typeof categoryTable.$inferSelect)[]
 }
 
 export function CategorySelector({ categories }: CategorySelectorProps) {
@@ -21,5 +20,5 @@ export function CategorySelector({ categories }: CategorySelectorProps) {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,22 +1,22 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-import { Footer } from "@/components/common/footer";
-import { Header } from "@/components/common/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { db } from "@/db";
-import { auth } from "@/lib/auth";
+import { FinishOrderButton } from '@/app/cart/confirmation/components/finish-order-button'
+import { Footer } from '@/components/common/footer'
+import { Header } from '@/components/common/header'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { db } from '@/db'
+import { auth } from '@/lib/auth'
 
-import { CartSummary } from "../identification/components/cart-summary";
-import { formatAddress } from "../helpers/address";
-import { FinishOrderButton } from "@/actions/finish-order/finish-order-button";
+import { formatAddress } from '../helpers/address'
+import { CartSummary } from '../identification/components/cart-summary'
 
 export default async function ConfirmationPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
-  });
+  })
   if (!session?.user.id) {
-    redirect("/");
+    redirect('/')
   }
   const cart = await db.query.cartTable.findFirst({
     where: (cart, { eq }) => eq(cart.userId, session.user.id),
@@ -32,16 +32,16 @@ export default async function ConfirmationPage() {
         },
       },
     },
-  });
+  })
   if (!cart || cart?.items.length === 0) {
-    redirect("/");
+    redirect('/')
   }
   const cartTotalInCents = cart.items.reduce(
     (acc, item) => acc + item.productVariant.priceInCents * item.quantity,
     0,
-  );
+  )
   if (!cart.shippingAddress) {
-    redirect("/cart/identification");
+    redirect('/cart/identification')
   }
   return (
     <div>
@@ -77,5 +77,5 @@ export default async function ConfirmationPage() {
         <Footer />
       </div>
     </div>
-  );
-};
+  )
+}

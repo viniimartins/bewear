@@ -1,17 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { productTable, productVariantTable } from "@/db/schema";
-import { formatCentsToBRL } from "@/helpers/money";
+import { productTable, productVariantTable } from '@/db/schema'
+import { formatCentsToBRL } from '@/helpers/money'
 
 interface ProductItemProps {
   product: typeof productTable.$inferSelect & {
-    variants: (typeof productVariantTable.$inferSelect)[];
-  };
+    variants: (typeof productVariantTable.$inferSelect)[]
+  }
 }
 
 export function ProductItem({ product }: ProductItemProps) {
-  const firstVariant = product.variants[0];
+  const firstVariant = product.variants[0]
 
   return (
     <Link
@@ -35,7 +35,6 @@ export function ProductItem({ product }: ProductItemProps) {
           {formatCentsToBRL(firstVariant.priceInCents)}
         </p>
       </div>
-
     </Link>
-  );
-};
+  )
+}

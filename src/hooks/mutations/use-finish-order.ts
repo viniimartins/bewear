@@ -1,21 +1,21 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { finishOrder } from "@/actions/finish-order";
+import { finishOrder } from '@/actions/finish-order'
 
-import { getUseCartQueryKey } from "../queries/use-cart";
+import { getUseCartQueryKey } from '../queries/use-cart'
 
-export const getUseFinishOrderMutationKey = () => ["finish-order"];
+export const getUseFinishOrderMutationKey = () => ['finish-order']
 
 export const useFinishOrder = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationKey: getUseFinishOrderMutationKey(),
     mutationFn: async () => {
-      await finishOrder();
+      await finishOrder()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: getUseCartQueryKey() });
+      queryClient.invalidateQueries({ queryKey: getUseCartQueryKey() })
     },
-  });
-};
+  })
+}

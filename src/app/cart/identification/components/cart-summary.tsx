@@ -1,21 +1,21 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image'
+import React from 'react'
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { formatCentsToBRL } from "@/helpers/money";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { formatCentsToBRL } from '@/helpers/money'
 
 interface CartSummaryProps {
-  subtotalInCents: number;
-  totalInCents: number;
+  subtotalInCents: number
+  totalInCents: number
   products: Array<{
-    id: string;
-    name: string;
-    variantName: string;
-    quantity: number;
-    priceInCents: number;
-    imageUrl: string;
-  }>;
+    id: string
+    name: string
+    variantName: string
+    quantity: number
+    priceInCents: number
+    imageUrl: string
+  }>
 }
 
 export function CartSummary({
@@ -76,5 +76,5 @@ export function CartSummary({
         ))}
       </CardContent>
     </Card>
-  );
-};
+  )
+}

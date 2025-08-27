@@ -6,5 +6,5 @@ export function Footer() {
         Todos os direitos reservados.
       </p>
     </div>
-  );
-};
+  )
+}

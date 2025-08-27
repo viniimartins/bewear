@@ -1,25 +1,24 @@
-"use client";
+'use client'
 
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { LogInIcon, LogOutIcon, MenuIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { authClient } from "@/lib/auth-client";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Cart } from "./cart";
+} from '@/components/ui/sheet'
+import { authClient } from '@/lib/auth-client'
+
+import { Cart } from './cart'
 
 export function Header() {
-  const { data: session } = authClient.useSession();
-
+  const { data: session } = authClient.useSession()
 
   return (
     <header className="flex items-center justify-between p-5">
@@ -48,8 +47,8 @@ export function Header() {
                           src={session?.user?.image as string | undefined}
                         />
                         <AvatarFallback>
-                          {session?.user?.name?.split(" ")?.[0]?.[0]}
-                          {session?.user?.name?.split(" ")?.[1]?.[0]}
+                          {session?.user?.name?.split(' ')?.[0]?.[0]}
+                          {session?.user?.name?.split(' ')?.[1]?.[0]}
                         </AvatarFallback>
                       </Avatar>
 
@@ -85,5 +84,5 @@ export function Header() {
         <Cart />
       </div>
     </header>
-  );
-};
+  )
+}

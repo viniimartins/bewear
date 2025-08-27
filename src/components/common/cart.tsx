@@ -1,19 +1,25 @@
-"use client";
+'use client'
 
-import { ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBasketIcon } from 'lucide-react'
+import Link from 'next/link'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import { formatCentsToBRL } from '@/helpers/money'
+import { useCart } from '@/hooks/queries/use-cart'
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { CartItem } from "./cart-item";
-import { Separator } from "@/components/ui/separator";
-import { formatCentsToBRL } from "@/helpers/money";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCart } from "@/hooks/queries/use-cart";
-import Link from "next/link";
+import { CartItem } from './cart-item'
 
 export function Cart() {
-  const { data: cart } = useCart();
+  const { data: cart } = useCart()
 
   return (
     <Sheet>
@@ -79,5 +85,5 @@ export function Cart() {
         </div>
       </SheetContent>
     </Sheet>
-  );
-};
+  )
+}

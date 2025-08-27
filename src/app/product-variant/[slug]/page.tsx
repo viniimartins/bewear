@@ -1,23 +1,25 @@
-import { eq } from "drizzle-orm";
-import Image from "next/image";
-import { notFound } from "next/navigation";
+import { eq } from 'drizzle-orm'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
-import { Footer } from "@/components/common/footer";
-import { Header } from "@/components/common/header";
-import { ProductList } from "@/components/common/product-list";
-import { db } from "@/db";
-import { productTable, productVariantTable } from "@/db/schema";
-import { formatCentsToBRL } from "@/helpers/money";
+import { Footer } from '@/components/common/footer'
+import { Header } from '@/components/common/header'
+import { ProductList } from '@/components/common/product-list'
+import { db } from '@/db'
+import { productTable, productVariantTable } from '@/db/schema'
+import { formatCentsToBRL } from '@/helpers/money'
 
-import { VariantSelector } from "./components/variant-selector";
-import { ProductActions } from "./components/product-actions";
+import { ProductActions } from './components/product-actions'
+import { VariantSelector } from './components/variant-selector'
 
 interface ProductVariantPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }
 
-export default async function ProductVariantPage({ params }: ProductVariantPageProps) {
-  const { slug } = await params;
+export default async function ProductVariantPage({
+  params,
+}: ProductVariantPageProps) {
+  const { slug } = await params
 
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
@@ -28,10 +30,10 @@ export default async function ProductVariantPage({ params }: ProductVariantPageP
         },
       },
     },
-  });
+  })
 
   if (!productVariant) {
-    return notFound();
+    return notFound()
   }
 
   const likelyProducts = await db.query.productTable.findMany({
@@ -39,7 +41,7 @@ export default async function ProductVariantPage({ params }: ProductVariantPageP
     with: {
       variants: true,
     },
-  });
+  })
 
   return (
     <>
@@ -86,5 +88,5 @@ export default async function ProductVariantPage({ params }: ProductVariantPageP
         <Footer />
       </div>
     </>
-  );
-};
+  )
+}

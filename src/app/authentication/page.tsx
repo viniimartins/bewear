@@ -1,6 +1,7 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SignInForm } from "./components/sign-in-form";
-import { SignUpForm } from "./components/sign-up-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
+import { SignInForm } from './components/sign-in-form'
+import { SignUpForm } from './components/sign-up-form'
 
 export default function AuthenticationPage() {
   return (
@@ -18,5 +19,5 @@ export default function AuthenticationPage() {
         </TabsContent>
       </Tabs>
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { productVariantTable } from "@/db/schema";
+import { productVariantTable } from '@/db/schema'
 
 interface VariantSelectorProps {
-  selectedVariantSlug: string;
-  variants: (typeof productVariantTable.$inferSelect)[];
+  selectedVariantSlug: string
+  variants: (typeof productVariantTable.$inferSelect)[]
 }
 
 export function VariantSelector({
@@ -20,8 +20,8 @@ export function VariantSelector({
           key={variant.id}
           className={
             selectedVariantSlug === variant.slug
-              ? "border-primary rounded-xl border-2"
-              : ""
+              ? 'border-primary rounded-xl border-2'
+              : ''
           }
         >
           <Image
@@ -34,5 +34,5 @@ export function VariantSelector({
         </Link>
       ))}
     </div>
-  );
-};
+  )
+}

@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import { productTable, productVariantTable } from "@/db/schema";
+import { productTable, productVariantTable } from '@/db/schema'
 
-import { ProductItem } from "./product-item";
+import { ProductItem } from './product-item'
 
 interface ProductListProps {
-  title: string;
+  title: string
   products: (typeof productTable.$inferSelect & {
-    variants: (typeof productVariantTable.$inferSelect)[];
-  })[];
+    variants: (typeof productVariantTable.$inferSelect)[]
+  })[]
 }
 
 export function ProductList({ title, products }: ProductListProps) {
@@ -22,5 +22,5 @@ export function ProductList({ title, products }: ProductListProps) {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
