@@ -9,7 +9,7 @@ import { db } from '@/db'
 import { auth } from '@/lib/auth'
 
 import { formatAddress } from '../helpers/address'
-import { CartSummary } from '../identification/components/cart-summary'
+import { CartSummary } from '../components/cart-summary'
 
 export default async function ConfirmationPage() {
   const session = await auth.api.getSession({

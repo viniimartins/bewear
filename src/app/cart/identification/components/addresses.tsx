@@ -106,7 +106,7 @@ export function Addresses({
       })
       toast.success('Endereço selecionado para entrega!')
 
-      router.push('/cart/payment')
+      router.push('/cart/confirmation')
     } catch (error) {
       toast.error('Erro ao selecionar endereço. Tente novamente.')
       console.error(error)
@@ -370,7 +370,7 @@ export function Addresses({
                 }
               >
                 {createShippingAddressMutation.isPending ||
-                updateCartShippingAddressMutation.isPending
+                  updateCartShippingAddressMutation.isPending
                   ? 'Salvando...'
                   : 'Salvar endereço'}
               </Button>

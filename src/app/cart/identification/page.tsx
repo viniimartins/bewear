@@ -9,7 +9,7 @@ import { shippingAddressTable } from '@/db/schema'
 import { auth } from '@/lib/auth'
 
 import { Addresses } from './components/addresses'
-import { CartSummary } from './components/cart-summary'
+import { CartSummary } from '../components/cart-summary'
 
 export default async function IdentificationPage() {
   const session = await auth.api.getSession({
