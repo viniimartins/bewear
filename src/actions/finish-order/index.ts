@@ -46,7 +46,7 @@ export async function finishOrder() {
     0,
   )
 
-  let orderId: string | undefined;
+  let orderId: string | undefined
 
   await db.transaction(async (tx) => {
     if (!cart.shippingAddress) {
@@ -78,7 +78,7 @@ export async function finishOrder() {
       throw new Error('Failed to create order')
     }
 
-    orderId = order.id;
+    orderId = order.id
 
     const orderItemsPayload: Array<typeof orderItemTable.$inferInsert> =
       cart.items.map((item) => ({
@@ -91,13 +91,11 @@ export async function finishOrder() {
     await tx.insert(orderItemTable).values(orderItemsPayload)
     await tx.delete(cartTable).where(eq(cartTable.id, cart.id))
     await tx.delete(cartItemTable).where(eq(cartItemTable.cartId, cart.id))
-
-
   })
 
   if (!orderId) {
-    throw new Error("Failed to create order");
+    throw new Error('Failed to create order')
   }
 
-  return { orderId };
+  return { orderId }
 }
